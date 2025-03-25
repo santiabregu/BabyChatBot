@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pregnancy Chat</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>👶 Welcome, {{ user_name }}! 🌸</h1>
+    <div id="chatbox">
+        <div id="chat-history"></div>
+        <form id="chat-form">
+            <label for="user_message">Your Message:</label>
+            <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about your pregnancy..." required>
+            <button type="submit">💬 Send</button>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById("chat-form");
+        const chatHistory = document.getElementById("chat-history");
+
+        form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userMessage = document.getElementById("user_message").value;
+
+    // Send the message to the server
+    const response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ user_message: userMessage }),
+    });
+
+    const data = await response.json();
+    const botMessage = data.response;
+
+    // Update the chat history
+    const userMessageElement = document.createElement("p");
+    userMessageElement.innerHTML = `<strong>You:</strong> ${userMessage}`;
+    chatHistory.appendChild(userMessageElement);
+
+    const botMessageElement = document.createElement("div");
+    botMessageElement.innerHTML = `
+        <strong>Bot:</strong>
+        <p>${botMessage
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold text
+            .replace(/\n/g, "<br>") // Line breaks
+            .replace(/\* (.*?)\n/g, "<li>$1</li>") // Convert bullet points to list items
+        }</p>
+    `;
+    chatHistory.appendChild(botMessageElement);
+
+    // Clear the input field
+    document.getElementById("user_message").value = "";
+});
+    </script>
+</body>
+</html>

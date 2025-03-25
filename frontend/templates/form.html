@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pregnancy Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>🤰 Welcome to the Pregnancy Assistant 🤱</h1>
+    <form action="/submit" method="post">
+        <label for="user_name">Your Name:</label>
+        <input type="text" id="user_name" name="user_name" placeholder="Enter your name..." required><br><br>
+
+        <label for="due_date">Due Date:</label>
+        <input type="date" id="due_date" name="due_date" required><br><br>
+
+        <label for="baby_gender">Baby's Gender:</label>
+        <select id="baby_gender" name="baby_gender" required>
+            <option value="unknown">Unknown</option>
+            <option value="boy">Boy</option>
+            <option value="girl">Girl</option>
+        </select><br><br>
+
+        <button type="submit">💌 Submit</button>
+    </form>
+</body>
+</html>
