@@ -4,18 +4,17 @@
     <title>Login</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
-    <h1>🔒 Login to Pregnancy Assistant</h1>
+<body class="login-register">
     <form action="/login" method="post">
+        <h1>Login to Pregnancy Assistant</h1>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required><br><br>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required><br><br>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
         <button type="submit">🔑 Login</button>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
     </form>
-
-    <p>Don't have an account? <a href="/register">Register here</a></p>
 </body>
 </html>

@@ -1,5 +1,5 @@
-/* General Styles for Login and Register Pages */
-body.login-register {
+/* General Styles for Form Page */
+body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -15,8 +15,8 @@ body.login-register {
     align-items: center; /* Center items vertically */
 }
 
-/* Center the form container */
-form {
+/* Form container */
+.container {
     max-width: 400px;
     width: 90%; /* Ensure the form is responsive */
     padding: 30px;
@@ -36,7 +36,7 @@ form label {
 }
 
 /* Form inputs */
-form input {
+form input, form select {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -50,7 +50,7 @@ form input {
 form button {
     width: 100%;
     padding: 10px;
-    background-color: #55402c; /* Pink button */
+    background-color: #ff69b4; /* Pink button */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -61,23 +61,5 @@ form button {
 }
 
 form button:hover {
-    background-color: #55402c; /* Lighter pink on hover */
-}
-
-/* Paragraph styles for the link */
-p {
-    margin-top: 15px;
-    font-size: 1em;
-    color: #555; /* Darker gray for text */
-}
-
-/* Link styles */
-a {
-    color: #ec8ba5; /* Pink color for better visibility */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
+    background-color: #ff85c2; /* Lighter pink on hover */
 }
