@@ -75,3 +75,18 @@ button:hover {
 #chatbox button {
     align-self: flex-end;
 }
+
+a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #ff69b4;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+a:hover {
+    background-color: #ff85c2;
+}
