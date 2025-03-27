@@ -1,0 +1,61 @@
+/* General Styles for Profile Page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffe4e1; /* Light peach/pink for warmth */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.profile-container {
+    width: 90%;
+    max-width: 600px;
+    background: #fff5f8; /* Soft pink-white */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff80ab;
+    margin-bottom: 20px;
+}
+
+.profile-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.profile-form input,
+.profile-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #ffb6c1;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.profile-form button {
+    background: #ff80ab;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-form button:hover {
+    background: #ff4d79;
+}

@@ -14,50 +14,69 @@ class PregnancyChatbot:
             {
                 "role": "system",
                 "content": (
-                    "IMPORTANT: Keep all responses extremely concise - maximum 3 sentences or 50 words.\n"
-                    "Your primary role is to provide brief, factual answers to pregnancy questions.\n"
-                    "Format: [4-5 very short sentences] + [1 emoji].\n"
-                    "Example good response: 'Walking and swimming are great pregnancy exercises. Aim for 30 minutes daily. Listen to your body. 💪'\n"
-                    "Bad response: Long paragraphs with multiple benefits listed.\n"
-                    "You are a friendly pregnancy assistant. "
-                    "Always prioritize safety and recommend consulting a doctor.\n"
-                    "If user expresses negative emotions, respond with 1-2 empathetic sentences max."
+                    "You are a friendly and supportive pregnancy assistant. "
+                    "Your role is to provide **practical** and **empathetic** answers to pregnancy-related questions. "
+                    "If the user expresses distress, always provide **at least one actionable solution** first, then empathy. "
+                    "Keep responses **concise, factual, and solution-driven**."
                 ),
             }
         ]
         self.client = genai.Client(api_key=GEMINI_API_KEY)
 
+    def truncate_response(self, response_text):
+        """
+        Truncates the response to end at the last complete sentence.
+        """
+        if "." in response_text:
+            return response_text[:response_text.rfind(".") + 1]
+        return response_text
+
     def detect_emotion(self, user_message):
         """
-        Detects negative emotions in user messages.
+        Classifies the user's distress level (mild or severe).
         """
-        negative_keywords = [
+        mild_discomfort = [
             "nauseous", "nausea", "vomiting", "morning sickness",
-            "worried", "anxious", "scared", "stressed", "pain", "cramps"
+            "tired", "fatigue", "cravings", "back pain"
+        ]
+        severe_distress = [
+            "worried", "anxious", "scared", "stressed", "depressed",
+            "severe pain", "bleeding", "fainting", "dizzy"
         ]
 
-        for word in negative_keywords:
+        for word in severe_distress:
             if re.search(rf"\b{word}\b", user_message, re.IGNORECASE):
-                return "negative"
+                return "severe"
+        
+        for word in mild_discomfort:
+            if re.search(rf"\b{word}\b", user_message, re.IGNORECASE):
+                return "mild"
         
         return "neutral"
 
-    def truncate_response(self, text, max_sentences=3, max_words=50):
+    def provide_practical_advice(self, emotion, user_message):
         """
-        Enforces strict length limits on responses.
+        Provides quick, useful advice based on distress level.
         """
-        sentences = re.split(r'(?<=[.!?])\s+', text)
-        truncated = ' '.join(sentences[:max_sentences])
+        if emotion == "mild":
+            return random.choice([
+                "Try sipping ginger tea 🍵, resting, and eating small meals throughout the day.",
+                "Drinking plenty of water and having light snacks can help with nausea. Stay hydrated! 💧",
+                "Lying on your left side and doing gentle stretches might ease discomfort. 🛌"
+            ])
         
-        words = truncated.split()
-        if len(words) > max_words:
-            truncated = ' '.join(words[:max_words])
-            
-        return truncated
+        if emotion == "severe":
+            return random.choice([
+                "If you're feeling extremely unwell, consider calling your doctor. Your health matters! 📞",
+                "Deep breathing and meditation might help with stress, but don’t hesitate to reach out for support. 💙",
+                "Severe pain or unusual symptoms? It's always best to check with a medical professional. 💊"
+            ])
+        
+        return ""
 
     def send_message(self, user_message):
         """
-        Sends a message to the Gemini API and retrieves an empathetic response.
+        Sends a message to the Gemini API and retrieves a more action-oriented response.
         """
         emotion = self.detect_emotion(user_message)
 
@@ -70,26 +89,22 @@ class PregnancyChatbot:
                 model="gemini-2.0-flash",
                 contents=contents,
                 config=types.GenerateContentConfig(
-                    max_output_tokens=100,  # Reduced from 400
-                    temperature=0.3  # Makes responses more focused
+                    max_output_tokens=300,  
+                    temperature=0.3  
                 )
             )
 
             bot_message = response.text.strip()
-            
-            # Strict length enforcement
             bot_message = self.truncate_response(bot_message)
-            
-            if emotion == "negative":
-                intro = random.choice([
-                    "I'm sorry 💕",
-                    "That's tough 🤗",
-                    "I understand 💜"
-                ])
-                return f"{intro} {bot_message}"
-            else:
-                emoji = random.choice(["💕", "🤗", "🌟", "💪", "👶"])
-                return f"{bot_message} {emoji}"
+
+            # Add **practical advice** FIRST, then empathy
+            advice = self.provide_practical_advice(emotion, user_message)
+            if advice:
+                bot_message = f"{advice} {bot_message}"
+
+            # Add a **soft emoji** for warmth
+            emoji = random.choice(["💕", "🤗", "🌟", "💪", "👶"])
+            bot_message = f"{bot_message} {emoji}"
 
             self.history.append({"role": "assistant", "content": bot_message})
             return bot_message

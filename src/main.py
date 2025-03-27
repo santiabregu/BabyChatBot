@@ -183,9 +183,20 @@ async def get_chat(request: Request):
     db: Session = SessionLocal()
     user_data = db.query(UserFormData).filter(UserFormData.username == username).first()
 
-    # Pass the user's name to the template
+    # Pass all user data to the template
     user_name = user_data.user_name if user_data else "Guest"
-    return templates.TemplateResponse("chat.html", {"request": request, "user_name": user_name})
+    user_due_date = user_data.due_date if user_data else "Not provided"
+    user_baby_gender = user_data.baby_gender if user_data else "Not provided"
+
+    return templates.TemplateResponse(
+        "chat.html",
+        {
+            "request": request,
+            "user_name": user_name,
+            "user_due_date": user_due_date,
+            "user_baby_gender": user_baby_gender,
+        }
+    )
 
 @app.get("/logout")
 async def logout():

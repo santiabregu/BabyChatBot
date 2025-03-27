@@ -6,23 +6,38 @@
 </head>
 <body>
     <div class="chat-page">
-        <header class="chat-header">
-            <h1>👶 Welcome, {{ user_name }}! 🌸</h1>
-            <div class="chat-buttons">
-                <button onclick="window.location.href='/facts'">🍼 Show Interesting Facts</button>
-                <button onclick="window.location.href='/profile'">✏️ Edit Profile</button>
-                <button onclick="window.location.href='/logout'">🚪 Logout</button>
-            </div>
-        </header>
-        <main class="chat-main">
-            <div id="chat-history" class="chat-history"></div>
-        </main>
-        <footer class="chat-footer">
-            <form id="chat-form" class="chat-form">
-                <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about your pregnancy..." required>
-                <button type="submit">💬 Send</button>
-            </form>
-        </footer>
+        <!-- Left Column: Profile Section -->
+        <div class="left-column">
+            <header class="profile-header">
+                <h2>👤 Your Profile</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> {{ user_name }}</p>
+                    <p><strong>Due Date:</strong> {{ user_due_date }}</p>
+                    <p><strong>Baby's Gender:</strong> {{ user_baby_gender }}</p>
+                </div>
+                <div class="profile-buttons">
+                    <button onclick="window.location.href='/profile'">✏️ Edit Profile</button>
+                    <button onclick="window.location.href='/facts'">🍼 Interesting Facts</button>
+                    <button onclick="window.location.href='/logout'">🚪 Logout</button>
+                </div>
+            </header>
+        </div>
+
+        <!-- Right Column: Chat Section -->
+        <div class="right-column">
+            <header class="chat-header">
+                <h1>👶 Welcome, {{ user_name }}! 🌸</h1>
+            </header>
+            <main class="chat-main">
+                <div id="chat-history" class="chat-history"></div>
+            </main>
+            <footer class="chat-footer">
+                <form id="chat-form" class="chat-form">
+                    <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about your pregnancy..." required>
+                    <button type="submit">💬 Send</button>
+                </form>
+            </footer>
+        </div>
     </div>
     <script>
         const form = document.getElementById("chat-form");
