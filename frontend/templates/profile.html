@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="/static/profile.css">
+</head>
+<body>
+    <h1>👤 Your Profile</h1>
+    <form action="/update_profile" method="post">
+        <label for="user_name">Your Name:</label>
+        <input type="text" id="user_name" name="user_name" value="{{ user_data.user_name }}" placeholder="Enter your name..."><br><br>
+
+        <label for="due_date">Due Date:</label>
+        <input type="date" id="due_date" name="due_date" value="{{ user_data.due_date }}"><br><br>
+
+        <label for="baby_gender">Baby's Gender:</label>
+        <select id="baby_gender" name="baby_gender">
+            <option value="unknown" {% if user_data.baby_gender == "unknown" %}selected{% endif %}>Unknown</option>
+            <option value="boy" {% if user_data.baby_gender == "boy" %}selected{% endif %}>Boy</option>
+            <option value="girl" {% if user_data.baby_gender == "girl" %}selected{% endif %}>Girl</option>
+        </select><br><br>
+
+        <button type="submit">💾 Save Changes</button>
+    </form>
+</body>
+</html>
